@@ -1,3 +1,7 @@
+name: Linux
+
+on: [push, pull_request]
+
 jobs:
   build-linux:
     defaults:
@@ -8,7 +12,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        build_type: [Release, Debug]
+        build_type: [Debug]
         extra: [no-custom-prefix, custom-prefix]
         lib: [shared, static]
         std: [98, 11, 14, 17, 20]

@@ -18,7 +18,7 @@ jobs:
         lib: [shared, static]
         std: [98, 11, 14, 17, 20]
 
-    strategy:
+    steps:
       - uses: actions/checkout@v2
       - name: set dependencies
         run: |

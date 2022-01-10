@@ -18,7 +18,7 @@
 #elif defined(__OpenBSD__)
 #define GOOGLELOG_OS_OPENBSD
 #else
-#error Platform not supported by googleLogging
+#error Platform not supported by googlelogging
 #endif
 
 #endif

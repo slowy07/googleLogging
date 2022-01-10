@@ -1,8 +1,8 @@
-#ifndef GLOG_CONFIG_H
-#define GLOG_CONFIG_H
+#ifndef GOOGLELOG_CONFIG_H
+#define GOOGLELOG_CONFIG_H
 
 
-/* define if glog doesn't use RTTI */
+/* define if GOOGLELOG doesn't use RTTI */
 #cmakedefine DISABLE_RTTI
 
 /* Namespace for Google classes */
@@ -191,7 +191,7 @@
 #cmakedefine TEST_SRC_DIR ${TEST_SRC_DIR}
 
 /* Define to necessary thread-local storage attribute. */
-#cmakedefine GLOG_THREAD_LOCAL_STORAGE ${GLOG_THREAD_LOCAL_STORAGE}
+#cmakedefine GOOGLELOG_THREAD_LOCAL_STORAGE ${GOOGLELOG_THREAD_LOCAL_STORAGE}
 
 /* Check whether aligned_storage and alignof present */
 #cmakedefine HAVE_ALIGNED_STORAGE ${HAVE_ALIGNED_STORAGE}
@@ -208,7 +208,7 @@
 /* Version number of package */
 #cmakedefine VERSION
 
-#ifdef GLOG_BAZEL_BUILD
+#ifdef GOOGLELOG_BAZEL_BUILD
 
 /* TODO(rodrigoq): remove this workaround once bazel#3979 is resolved:
  * https://github.com/bazelbuild/bazel/issues/3979 */
@@ -229,4 +229,4 @@
 /* Replacement for deprecated syscall(SYS_gettid) on macOS. */
 #cmakedefine HAVE_PTHREAD_THREADID_NP ${HAVE_PTHREAD_THREADID_NP}
 
-#endif  // GLOG_CONFIG_H
+#endif  // GOOGLELOG_CONFIG_H

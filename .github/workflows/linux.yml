@@ -34,12 +34,12 @@ jobs:
             libunwind-dev \
             ninja-build
       
-      - name: Cache GTest
-        id: cache-gtest
-        uses: actions/cache@v2
-        with:
-          path: gtest/
-          key: ${{runner.os}}-gtest-1.11
+      # - name: Cache GTest
+      #   id: cache-gtest
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: gtest/
+      #     key: ${{runner.os}}-gtest-1.11
 
       
       - name: Download GTest

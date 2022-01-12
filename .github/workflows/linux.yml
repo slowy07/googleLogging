@@ -43,7 +43,7 @@ jobs:
 
       
       - name: Download GTest
-        if: steps.cache-gtest.outputs.cache-hit != 'true'
+        # if: steps.cache-gtest.outputs.cache-hit != 'true'
         run: |
           wget https://github.com/google/googletest/archive/refs/tags/release-1.11.0.tar.gz
           tar xvzf release-1.11.0.tar.gz

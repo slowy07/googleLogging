@@ -16,7 +16,7 @@ jobs:
       fail-fast: true
       matrix:
         arch: [Win32, x64]
-        build_type: [Debug, Release]
+        build_type: [Debug]
         extra: [no-custom-prefix, custom-prefix]
         lib: [shared, static]
         msvc: [VS-16-2019, VS-17-2022]

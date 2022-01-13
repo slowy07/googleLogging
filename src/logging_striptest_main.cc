@@ -1,12 +1,12 @@
 #include <cstdio>
 #include <string>
 #include <iosfwd>
-#include <glog/logging.h>
+#include <googlelog/logging.h>
 #include "base/commandlineflags.h"
 #include "config.h"
 
 DECLARE_bool(logtostderr);
-GLOG_DEFINE_bool(check_mode, false, "Prints 'opt' or 'dbg'");
+GOOGLELOG_DEFINE_bool(check_mode, false, "Prints 'opt' or 'dbg'");
 
 using std::string;
 using namespace GOOGLE_NAMESPACE;

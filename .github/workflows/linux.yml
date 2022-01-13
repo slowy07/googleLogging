@@ -81,10 +81,10 @@ jobs:
             -G Ninja \
             -Werror
 
-      # - name: Build
-      #   run: |
-      #     cmake --build build_${{matrix.build_type}} \
-      #           --config ${{matrix.build_type}}
+      - name: Build
+        run: |
+          cmake --build build_${{matrix.build_type}} \
+                --config ${{matrix.build_type}}
 
       # - name: Install
       #   run: |

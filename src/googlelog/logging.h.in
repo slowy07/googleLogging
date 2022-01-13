@@ -30,7 +30,7 @@
 
 #include <googlelog/platform.h>
 
-#if @ac_cv_have_GOOGLELOG_export@
+#if @ac_cv_have_googlelog_export@
 #include <googlelog/export.h>
 #endif
 
@@ -1206,7 +1206,7 @@ namespace google {
         &what_to_do).stream()
 #endif
 
-namespace GOOGLELOG_internal_namespace_ {
+namespace googlelog_internal_namespace_ {
 template <bool>
 struct CompileAssert {
 };
@@ -1215,7 +1215,7 @@ struct CrashReason;
 // Returns true if FailureSignalHandler is installed.
 // Needs to be exported since it's used by the signalhandler_unittest.
 GOOGLE_GOOGLELOG_DLL_DECL bool IsFailureSignalHandlerInstalled();
-}  // namespace GOOGLELOG_internal_namespace_
+}  // namespace googlelog_internal_namespace_
 
 #define LOG_EVERY_N(severity, n)                                        \
   SOME_KIND_OF_LOG_EVERY_N(severity, (n), @ac_google_namespace@::LogMessage::SendToLog)
@@ -1555,7 +1555,7 @@ private:
             void (LogMessage::*send_method)());
 
   // Used to fill in crash information during LOG(FATAL) failures.
-  void RecordCrashReason(GOOGLELOG_internal_namespace_::CrashReason* reason);
+  void RecordCrashReason(googlelog_internal_namespace_::CrashReason* reason);
 
   // Counts of messages sent at each priority:
   static int64 num_messages_[NUM_SEVERITIES];  // under log_mutex

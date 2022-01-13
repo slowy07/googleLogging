@@ -34,12 +34,12 @@ jobs:
             libunwind-dev \
             ninja-build
 
-      - name: Cache GTest
-        id: cache-gtest
-        uses: actions/cache@v2
-        with:
-          path: gtest/
-          key: ${{runner.os}}-gtest-1.11
+      # - name: Cache GTest
+      #   id: cache-gtest
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: gtest/
+      #     key: ${{runner.os}}-gtest-1.11
 
       - name: Download GTest
         if: steps.cache-gtest.outputs.cache-hit != 'true'
@@ -86,19 +86,19 @@ jobs:
           cmake --build build_${{matrix.build_type}} \
                 --config ${{matrix.build_type}}
 
-      # - name: Install
-      #   run: |
-      #     cmake --build build_${{matrix.build_type}} \
-      #           --config ${{matrix.build_type}} \
-      #           --target install
+      - name: Install
+        run: |
+          cmake --build build_${{matrix.build_type}} \
+                --config ${{matrix.build_type}} \
+                --target install
 
-      #     cmake build_${{matrix.build_type}} \
-      #           -DCMAKE_INSTALL_INCLUDEDIR=${{runner.workspace}}/foo/include \
-      #           -DCMAKE_INSTALL_LIBDIR=${{runner.workspace}}/foo/lib \
-      #           -DCMAKE_INSTALL_DATAROOTDIR=${{runner.workspace}}/foo/share
-      #     cmake --build build_${{matrix.build_type}} \
-      #           --config ${{matrix.build_type}} \
-      #           --target install
+          cmake build_${{matrix.build_type}} \
+                -DCMAKE_INSTALL_INCLUDEDIR=${{runner.workspace}}/foo/include \
+                -DCMAKE_INSTALL_LIBDIR=${{runner.workspace}}/foo/lib \
+                -DCMAKE_INSTALL_DATAROOTDIR=${{runner.workspace}}/foo/share
+          cmake --build build_${{matrix.build_type}} \
+                --config ${{matrix.build_type}} \
+                --target install
 
       # - name: Test CMake Package (relative GNUInstallDirs)
       #   run: |

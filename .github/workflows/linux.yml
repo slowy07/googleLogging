@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        build_type: [Debug]
+        build_type: [Release, Debug]
         extra: [no-custom-prefix, custom-prefix]
         lib: [shared, static]
         std: [98, 11, 14, 17, 20]

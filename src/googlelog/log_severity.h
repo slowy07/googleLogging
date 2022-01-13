@@ -37,7 +37,7 @@ const int GOOGLELOG_INFO = 0, GOOGLELOG_WARNING = 1, GOOGLELOG_ERROR = 2, GOOGLE
 #  error ERROR macro is defined. Define GOOGLELOG_NO_ABBREVIATED_SEVERITIES before including logging.h. See the document for detail.
 # endif
 const int INFO = GOOGLELOG_INFO, WARNING = GOOGLELOG_WARNING,
-  ERROR = GOOGELOG_ERROR, FATAL = GOOGELOG_FATAL;
+  ERROR = GOOGLELOG_ERROR, FATAL = GOOGLELOG_FATAL;
 #endif
 
 // DFATAL is FATAL in debug mode, ERROR in normal mode

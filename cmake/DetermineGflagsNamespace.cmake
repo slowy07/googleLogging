@@ -14,7 +14,7 @@ macro(determine_gflags_namespace VARIABLE)
 #include <gflags/gflags.h>
 int main(int argc, char**argv)
 {
-  GOOGLELOG_GFLAGS_NAMESPACE::ParseCommandLineFlags(&argc, &argv, true);
+  GLOG_GFLAGS_NAMESPACE::ParseCommandLineFlags(&argc, &argv, true);
 }
 ")
     if (NOT CMAKE_REQUIRED_QUIET)
@@ -32,7 +32,7 @@ int main(int argc, char**argv)
       file (WRITE "${_check_file}" "${_check_code}")
       try_compile (${VARIABLE}
         "${CMAKE_BINARY_DIR}" "${_check_file}"
-        COMPILE_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS}" -DGOOGLELOG_GFLAGS_NAMESPACE=${_namespace}
+        COMPILE_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS}" -DGLOG_GFLAGS_NAMESPACE=${_namespace}
         LINK_LIBRARIES gflags
         CMAKE_FLAGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
         OUTPUT_VARIABLE OUTPUT)

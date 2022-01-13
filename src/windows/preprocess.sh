@@ -31,7 +31,7 @@
 
 # ---
 # Author: Craig Silverstein
-# Copied from google-perftools and modified by Arfy slowy
+# Copied from google-perftools and modified by Shinichiro Hamaji
 #
 # This script is meant to be run at distribution-generation time, for
 # instance by autogen.sh.  It does some of the work configure would

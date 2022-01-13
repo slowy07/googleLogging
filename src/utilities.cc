@@ -1,3 +1,34 @@
+// Copyright (c) 2008, Google Inc.
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are
+// met:
+//
+//     * Redistributions of source code must retain the above copyright
+// notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above
+// copyright notice, this list of conditions and the following disclaimer
+// in the documentation and/or other materials provided with the
+// distribution.
+//     * Neither the name of Google Inc. nor the names of its
+// contributors may be used to endorse or promote products derived from
+// this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+// OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+// LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//
+// Author: Shinichiro Hamaji
+
 #include "config.h"
 #include "utilities.h"
 
@@ -48,7 +79,7 @@ _END_GOOGLE_NAMESPACE_
 #include "symbolize.h"
 #include "base/commandlineflags.h"
 
-GOOGELOG_DEFINE_bool(symbolize_stacktrace, true,
+GOOGLELOG_DEFINE_bool(symbolize_stacktrace, true,
                  "Symbolize the stack trace in the tombstone");
 
 _START_GOOGLE_NAMESPACE_
@@ -139,7 +170,7 @@ static void DumpStackTraceAndExit() {
     sigemptyset(&sig_action.sa_mask);
     sig_action.sa_handler = SIG_DFL;
     sigaction(SIGABRT, &sig_action, NULL);
-#elif defined(GOOGELOG_OS_WINDOWS)
+#elif defined(GOOGLELOG_OS_WINDOWS)
     signal(SIGABRT, SIG_DFL);
 #endif  // HAVE_SIGACTION
   }
@@ -164,7 +195,7 @@ const char* ProgramInvocationShortName() {
   }
 }
 
-#ifdef GOOGELOG_OS_WINDOWS
+#ifdef GOOGLELOG_OS_WINDOWS
 struct timeval {
   long tv_sec, tv_usec;
 };
@@ -227,9 +258,9 @@ bool PidHasChanged() {
 
 pid_t GetTID() {
   // On Linux and MacOSX, we try to use gettid().
-#if defined GOOGELOG_OS_LINUX || defined GOOGELOG_OS_MACOSX
+#if defined GOOGLELOG_OS_LINUX || defined GOOGLELOG_OS_MACOSX
 #ifndef __NR_gettid
-#ifdef GOOGELOG_OS_MACOSX
+#ifdef GOOGLELOG_OS_MACOSX
 #define __NR_gettid SYS_gettid
 #elif ! defined __i386__
 #error "Must define __NR_gettid for non-x86 platforms"
@@ -239,7 +270,7 @@ pid_t GetTID() {
 #endif
   static bool lacks_gettid = false;
   if (!lacks_gettid) {
-#if (defined(GOOGELOG_OS_MACOSX) && defined(HAVE_PTHREAD_THREADID_NP))
+#if (defined(GOOGLELOG_OS_MACOSX) && defined(HAVE_PTHREAD_THREADID_NP))
     uint64_t tid64;
     const int error = pthread_threadid_np(NULL, &tid64);
     pid_t tid = error ? -1 : static_cast<pid_t>(tid64);
@@ -255,12 +286,12 @@ pid_t GetTID() {
     // the value change to "true".
     lacks_gettid = true;
   }
-#endif  // GOOGELOG_OS_LINUX || GOOGELOG_OS_MACOSX
+#endif  // GOOGLELOG_OS_LINUX || GOOGLELOG_OS_MACOSX
 
   // If gettid() could not be used, we use one of the following.
-#if defined GOOGELOG_OS_LINUX
+#if defined GOOGLELOG_OS_LINUX
   return getpid();  // Linux:  getpid returns thread ID when gettid is absent
-#elif defined GOOGELOG_OS_WINDOWS && !defined GOOGELOG_OS_CYGWIN
+#elif defined GOOGLELOG_OS_WINDOWS && !defined GOOGLELOG_OS_CYGWIN
   return static_cast<pid_t>(GetCurrentThreadId());
 #elif defined(HAVE_PTHREAD)
   // If none of the techniques above worked, we use pthread_self().
@@ -272,7 +303,7 @@ pid_t GetTID() {
 
 const char* const_basename(const char* filepath) {
   const char* base = strrchr(filepath, '/');
-#ifdef GOOGELOG_OS_WINDOWS  // Look for either path separator in Windows
+#ifdef GOOGLELOG_OS_WINDOWS  // Look for either path separator in Windows
   if (!base)
     base = strrchr(filepath, '\\');
 #endif
@@ -285,7 +316,7 @@ const string& MyUserName() {
 }
 static void MyUserNameInitializer() {
   // TODO(hamaji): Probably this is not portable.
-#if defined(GOOGELOG_OS_WINDOWS)
+#if defined(GOOGLELOG_OS_WINDOWS)
   const char* user = getenv("USERNAME");
 #else
   const char* user = getenv("USER");
@@ -334,7 +365,7 @@ void InitGoogleLoggingUtilities(const char* argv0) {
   CHECK(!IsGoogleLoggingInitialized())
       << "You called InitGoogleLogging() twice!";
   const char* slash = strrchr(argv0, '/');
-#ifdef GOOGELOG_OS_WINDOWS
+#ifdef GOOGLELOG_OS_WINDOWS
   if (!slash)  slash = strrchr(argv0, '\\');
 #endif
   g_program_invocation_short_name = slash ? slash + 1 : argv0;

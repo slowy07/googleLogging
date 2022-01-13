@@ -29,7 +29,7 @@
  *
  * ---
  * Author: Craig Silverstein
- * Copied from google-perftools and modified by Arfy slowy
+ * Copied from google-perftools and modified by Shinichiro Hamaji
  *
  * These are some portability typedefs and defines to make it a bit
  * easier to compile this code under VC++.

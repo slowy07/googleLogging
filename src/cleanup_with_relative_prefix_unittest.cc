@@ -27,7 +27,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// author: Arfy slowy
+// author: arfy slowy
 
 #include <googlelog/logging.h>
 #include <googlelog/raw_logging.h>

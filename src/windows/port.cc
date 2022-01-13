@@ -29,7 +29,7 @@
  *
  * ---
  * Author: Craig Silverstein
- * Copied from google-perftools and modified by arfy slowy
+ * Copied from google-perftools and modified by Shinichiro Hamaji
  */
 
 #ifndef _WIN32

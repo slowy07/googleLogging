@@ -1,8 +1,7 @@
 #ifndef GOOGLELOG_CONFIG_H
 #define GOOGLELOG_CONFIG_H
 
-
-/* define if GOOGLELOG doesn't use RTTI */
+/* define if googlelog doesn't use RTTI */
 #cmakedefine DISABLE_RTTI
 
 /* Namespace for Google classes */

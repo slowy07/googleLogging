@@ -30,16 +30,15 @@
 // ---
 // Author: Jacob Hoffman-Andrews
 
-#ifndef _GOOGLE_INIT_H
-#define _GOOGLE_INIT_H_
+#ifndef _GOOGLEINIT_H
+#define _GOOGLEINIT_H
 
-
-class GoogleInitializer{
-    public:
-        typedef void(*void_function)(void);
-        GoogleInitializer(const char*, void_function f){
-            f();
-        }
+class GoogleInitializer {
+ public:
+  typedef void (*void_function)(void);
+  GoogleInitializer(const char*, void_function f) {
+    f();
+  }
 };
 
 #define REGISTER_MODULE_INITIALIZER(name, body)                 \

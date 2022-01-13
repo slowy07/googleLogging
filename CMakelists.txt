@@ -1,8 +1,8 @@
 cmake_minimum_required (VERSION 3.16)
-project (googlelog
+project (googleLogging
   VERSION 0.6.0
   DESCRIPTION "C++ implementation of the Google logging module"
-  HOMEPAGE_URL https://github.com/google/googlelog
+  HOMEPAGE_URL https://github.com/slowy07/googleLogging
   LANGUAGES CXX
 )
 

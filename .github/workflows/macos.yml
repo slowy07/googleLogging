@@ -29,3 +29,29 @@ jobs:
         if: matrix.build_type == 'Debug'
         run: |
           echo 'CXXFLAGS=--coverage' >> $GITHUB_ENV
+
+
+      - name: configure
+        shell: bash
+        env:
+          CXXFLAGS: -Wall -Wextra -Wsign-conversion -Wtautological-compare -Wformat-nonliteral -Wundef -Werror ${{env.CXXFLAGS}}
+        run: |
+          cmake -S . -B build_${{matrix.build_type}} \
+                -DCMAKE_CXX_EXTENSIONS=OFF \
+                -DCMAKE_CXX_FLAGS_DEBUG=-pedantic-errors  \
+                -DCMAKE_CXX_FLAGS_RELEASE=-pedantic-errors \
+                -DCMAKE_CXX_STANDARD=${{matrix.std}} \
+                -DCMAKE_CXX_STANDARD_REQUIRED=ON \
+                -G "${{matrix.generator}}" \
+                -Werror
+
+      - name: build
+        run: |
+          cmake --build build_${{matrix.build_type}} \
+                --config ${{matrix.build_type}}
+
+      - name: test
+        run: |
+          ctest --test-dir build_${{matrix.build_type}} \
+                --output-on-failure
+

@@ -55,3 +55,17 @@ when building google logging as standalone project, on unix-like system with GNU
     ```
 
 
+## setting flags
+
+severals flags influence google log output behavior. if the [google gflags library](https://gflags.github.io/gflags/) is installed in your machine, the build system will automatically detect and use it, alowing you to pass flgas on the command line. for example, if you want to turn the flag ``--loghoster`` on, you can start application with the following command line:
+
+```
+./your-application --loglostderr=1
+```
+
+if the google gflags library isn't installed, you set flags vie environment variables, prefixing the flag name with ``GOOGLELOG_``, eg:
+
+```
+GOOGLELOG_loglostderr=1 ./your-application
+```
+

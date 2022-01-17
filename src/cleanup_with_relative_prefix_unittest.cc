@@ -63,7 +63,7 @@ TEST(CleanImmediatelyWithRelativePrefix, logging) {
   google::SetLogDestination(GOOGLELOG_INFO, "test_subdir/test_cleanup_");
 
   for (unsigned i = 0; i < 1000; ++i) {
-    LOG(INFO) << "cleanup test";
+    LOG(INFO) << "cleanup test gmock";
   }
 
   google::DisableLogCleaner();

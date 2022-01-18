@@ -69,3 +69,6 @@ if the google gflags library isn't installed, you set flags vie environment vari
 GOOGLELOG_loglostderr=1 ./your-application
 ```
 
+## user guide
+
+googleLog define a series of macros that simplify many common logging task.yoi can log messages by severity level, control logging behavior from the command line, log base on conditionals abort the program when expected conditions are not met, introduce your own verbose logging levels, customize the prefix attached to log message, and more.

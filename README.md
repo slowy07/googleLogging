@@ -72,3 +72,13 @@ GOOGLELOG_loglostderr=1 ./your-application
 ## user guide
 
 googleLog define a series of macros that simplify many common logging task.yoi can log messages by severity level, control logging behavior from the command line, log base on conditionals abort the program when expected conditions are not met, introduce your own verbose logging levels, customize the prefix attached to log message, and more.
+
+following section describe the functionality supported by googleLogging. please note this description may not be complete but limited to the most useful ones. if you want to find less common features, please check header files under ``src/googlelog`` directory.
+
+## severity levels
+
+you can specify one of the following severity levels (in increasing order of severity): ``INFO``, ``WARNING``, ``ERROR``, and ``FATAL``. logging a ``FATAL`` message terminates the program (after the message is logged). Note that message of a given sverity are logged not only in the logfile for that severity, but also in all logfiles of lower sverity. E.g., a message of severity ``FATAL`` will be logged to the logfiles of severity ``FATAL``, ``ERROR``, ``WARNING``, and ``INFO``.
+
+the ``DFATAL`` severity logs a ``FATAL`` error in debug mode (i.e., there is no ``NDEBUG`` macro defined), but avoids halting program in production by automatically reducing the severity to ``ERROR``.
+
+Unless otherwise sspecified, googlelog writes to the filename ``/tmp/\<program name\>.\<hostname\>.\<user name\>.log.\<severity level\>.\<date\>-\<time\>.\<pid\>`` (e.g ``/tmp/hello_world.example.com.hamaji.log.INFO.20080709-222411.10474``). By default, googlelog copies the log messages of severity leve ``ERROR`` or ``FATAL`` to standard error (``stderr``) in addition to log files.

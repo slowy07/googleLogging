@@ -37,7 +37,7 @@ def googlelog_library(namespace = "google", with_gflags = 1, **kwargs):
   )
 
   common_copts = [
-    "-DGLOG_BAZEL_BUILD".
+    "-DGOOGLELOG_BAZEL_BUILD".
     "_DGOOOGLE_NAMESPACE='%s'" % namespace,
     "-DHAVE_CXX11_NULPTR_T",
     "-DHAVE_STDINT_H",
@@ -47,7 +47,7 @@ def googlelog_library(namespace = "google", with_gflags = 1, **kwargs):
   ] + (["-DHAVE_LIB_GFLAG"]) if with_gflags else [])
 
   wasm_copts = [
-        # Disable warnings that exists in glog.
+        # Disable warnings that exists in googlelog.
         "-Wno-sign-compare",
         "-Wno-unused-function",
         "-Wno-unused-local-typedefs",
@@ -86,13 +86,13 @@ def googlelog_library(namespace = "google", with_gflags = 1, **kwargs):
     ]
 
     windows_only_copts = [
-        "-DGLOG_NO_ABBREVIATED_SEVERITIES",
+        "-DGOOGLELOG_NO_ABBREVIATED_SEVERITIES",
         "-DHAVE_SNPRINTF",
         "-I" + src_windows,
     ]
 
     windows_only_srcs = [
-        "src/glog/log_severity.h",
+        "src/googlelog/log_severity.h",
         "src/windows/dirent.h",
         "src/windows/port.cc",
         "src/windows/port.h",
@@ -101,7 +101,7 @@ def googlelog_library(namespace = "google", with_gflags = 1, **kwargs):
     gflags_deps = ["@com_github_gflags_gflags//:gflags"] if with_gflags else []
 
     native.cc_library(
-        name = "glog",
+        name = "googlelog",
         visibility = ["//visibility:public"],
         srcs = [
             ":config_h",
@@ -130,8 +130,8 @@ def googlelog_library(namespace = "google", with_gflags = 1, **kwargs):
             "//conditions:default": [],
         }),
         hdrs = [
-            "src/glog/log_severity.h",
-            "src/glog/platform.h",
+            "src/googlelog/log_severity.h",
+            "src/googlelog/platform.h",
             ":logging_h",
             ":raw_logging_h",
             ":stl_logging_h",
@@ -139,15 +139,15 @@ def googlelog_library(namespace = "google", with_gflags = 1, **kwargs):
         ],
         strip_include_prefix = "src",
         defines = select({
-            # GOOGLE_GLOG_DLL_DECL is normally set by export.h, but that's not
+            # GOOGLE_GOOGLELOG_DLL_DECL is normally set by export.h, but that's not
             # generated for Bazel.
             "@bazel_tools//src/conditions:windows": [
-                "GOOGLE_GLOG_DLL_DECL=__declspec(dllexport)",
-                "GLOG_DEPRECATED=__declspec(deprecated)",
-                "GLOG_NO_ABBREVIATED_SEVERITIES",
+                "GOOGLE_GOOGLELOG_DLL_DECL=__declspec(dllexport)",
+                "GOOGLELOG_DEPRECATED=__declspec(deprecated)",
+                "GOOGLELOG_NO_ABBREVIATED_SEVERITIES",
             ],
             "//conditions:default": [
-                "GLOG_DEPRECATED=__attribute__((deprecated))",
+                "GOOGLELOG_DEPRECATED=__attribute__((deprecated))",
             ],
         }),
         copts =
@@ -170,7 +170,7 @@ def googlelog_library(namespace = "google", with_gflags = 1, **kwargs):
     native.cc_library(
         name = "strip_include_prefix_hack",
         hdrs = [
-            "src/glog/log_severity.h",
+            "src/googlelog/log_severity.h",
             ":logging_h",
             ":raw_logging_h",
             ":stl_logging_h",
@@ -181,7 +181,7 @@ def googlelog_library(namespace = "google", with_gflags = 1, **kwargs):
     expand_template(
         name = "config_h",
         template = "src/config.h.cmake.in",
-        out = "glog_internal/config.h",
+        out = "googlelog_internal/config.h",
         substitutions = {"#cmakedefine": "//cmakedefine"},
     )
 
@@ -193,7 +193,7 @@ def googlelog_library(namespace = "google", with_gflags = 1, **kwargs):
         "@ac_cv_cxx_using_operator@": "1",
         "@ac_cv_have_inttypes_h@": "0",
         "@ac_cv_have_u_int16_t@": "0",
-        "@ac_cv_have_glog_export@": "0",
+        "@ac_cv_have_googlelog_export@": "0",
         "@ac_google_start_namespace@": "namespace google {",
         "@ac_google_end_namespace@": "}",
         "@ac_google_namespace@": "google",
@@ -228,8 +228,8 @@ def googlelog_library(namespace = "google", with_gflags = 1, **kwargs):
     [
         expand_template(
             name = "%s_h" % f,
-            template = "src/glog/%s.h.in" % f,
-            out = "src/glog/%s.h" % f,
+            template = "src/googlelog/%s.h.in" % f,
+            out = "src/googlelog/%s.h" % f,
             substitutions = select({
                 "@bazel_tools//src/conditions:windows": windows_config,
                 "//conditions:default": posix_config,

@@ -3,9 +3,9 @@ exec_prefix=@exec_prefix@
 libdir=@libdir@
 includedir=@includedir@
 
-Name: libgooglelog
-Description: Google Log (googlelog) C++ logging framework
+Name: libglog
+Description: Google Log (glog) C++ logging framework
 Version: @VERSION@
-Libs.private: @googlelog_libraries_options_for_static_linking@
-Libs: -L${libdir} -lgooglelog
+Libs: -L${libdir} -lglog
+Libs.private: @glog_libraries_options_for_static_linking@
 Cflags: -I${includedir}

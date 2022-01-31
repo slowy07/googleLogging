@@ -625,7 +625,7 @@ set (googlelog_libraries_options_for_static_linking)
 
 if (Unwind_FOUND)
   target_link_libraries (googlelog PRIVATE unwind::unwind)
-  set (googlelog_libraries_options_for_static_linking "${googlelog_libraries_options for_static_linking} -lunwind")
+  set (googlelog_libraries_options_for_static_linking "${googlelog_libraries_options_for_static_linking} -lunwind")
   set (Unwind_DEPENDENCY "find_dependency (Unwind ${Unwind_VERSION})")
 endif (Unwind_FOUND)
 

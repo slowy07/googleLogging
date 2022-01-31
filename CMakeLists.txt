@@ -533,26 +533,6 @@ configure_file (src/googlelog/raw_logging.h.in googlelog/raw_logging.h @ONLY)
 configure_file (src/googlelog/stl_logging.h.in googlelog/stl_logging.h @ONLY)
 configure_file (src/googlelog/vlog_is_on.h.in googlelog/vlog_is_on.h @ONLY)
 
-if (WITH_PKGCONFIG)
-  set (VERSION ${PROJECT_VERSION})
-  set (prefix ${CMAKE_INSTALL_PREFIX})
-  set (exec_prefix ${CMAKE_INSTALL_FULL_BINDIR})
-  set (libdir ${CMAKE_INSTALL_FULL_LIBDIR})
-  set (includedir ${CMAKE_INSTALL_FULL_INCLUDEDIR})
-
-  configure_file (
-    "${PROJECT_SOURCE_DIR}/libgooglelog.pc.in"
-    "${PROJECT_BINARY_DIR}/libgooglelog.pc"
-    @ONLY
-  )
-
-  unset (VERSION)
-  unset (prefix)
-  unset (exec_prefix)
-  unset (libdir)
-  unset (includedir)
-endif (WITH_PKGCONFIG)
-
 add_compile_options ($<$<AND:$<BOOL:${HAVE_NO_UNNAMED_TYPE_TEMPLATE_ARGS}>,$<NOT:$<CXX_COMPILER_ID:GNU>>>:-Wno-unnamed-type-template-args>)
 
 set (_googlelog_CMake_BINDIR ${CMAKE_INSTALL_BINDIR})
@@ -641,17 +621,25 @@ add_library (googlelog
 
 add_library (googlelog::googlelog ALIAS googlelog)
 
+set (googlelog_libraries_options_for_static_linking)
+
 if (Unwind_FOUND)
   target_link_libraries (googlelog PRIVATE unwind::unwind)
+  set (googlelog_libraries_options_for_static_linking "${googlelog_libraries_options for_static_linking} -lunwind")
   set (Unwind_DEPENDENCY "find_dependency (Unwind ${Unwind_VERSION})")
 endif (Unwind_FOUND)
 
 if (HAVE_DBGHELP)
   target_link_libraries (googlelog PRIVATE dbghelp)
+  set (googlelog_libraries_options_for_static_linking "${googlelog_libraries_options_for_static_linking} -ldghelp")
 endif (HAVE_DBGHELP)
 
 if (HAVE_PTHREAD)
   target_link_libraries (googlelog PRIVATE ${CMAKE_THREAD_LIBS_INIT})
+
+  if (CMAKE_THREAD_LIBS_INIT)
+    set (googlelog_libraries_options_for_static_linking "${googlelog_libraries_options_for_static_linking} ${CMAKE_THREAD_LIBS_INIT}")
+  endif (CMAKE_THREAD_LIBS_INIT)
 endif (HAVE_PTHREAD)
 
 if (gflags_FOUND)
@@ -662,6 +650,8 @@ if (gflags_FOUND)
     target_link_libraries (googlelog PUBLIC gflags)
   endif (TARGET gflags::gflags)
 
+  set (googlelog_libraries_options_for_static_linking "${googlelog_libraris_options_for_static_linking} -lgflags")
+
   target_compile_definitions (googlelog PRIVATE
     GFLAGS_DLL_DECLARE_FLAG=GOOGLE_GOOGLELOG_DLL_DECL
     GFLAGS_DLL_DEFINE_FLAG=GOOGLE_GOOGLELOG_DLL_DECL
@@ -670,6 +660,7 @@ endif (gflags_FOUND)
 
 if (ANDROID)
   target_link_libraries (googlelog PRIVATE log)
+  set (googlelog_libraries_option_for_static_linking "${googlelog_libraries_options_for_static_linking} -llog")
 endif (ANDROID)
 
 set_target_properties (googlelog PROPERTIES VERSION ${PROJECT_VERSION})
@@ -714,6 +705,27 @@ generate_export_header (googlelog
   EXPORT_MACRO_NAME GOOGLE_GOOGLELOG_DLL_DECL
   EXPORT_FILE_NAME ${CMAKE_CURRENT_BINARY_DIR}/googlelog/export.h)
 
+string (STRIP "${googlelog_libraries_options_for_static_linking}" googlelog_libraries_options_for_static_linking)
+
+if (WITH_PKGCONFIG)
+  set (VERSION ${PROJECT_VERSION})
+  set (prefix ${CMAKE_INSTALL_PREFIX})
+  set (exec_prefix ${CMAKE_INSTALL_FULL_BINDIR})
+  set (libdir ${CMAKE_INSTALL_FULL_LIBDIR})
+  set (includedir ${CMAKE_INSTALL_FULL_INCLUDEDIR})
+  
+  configure_file(
+    "${PROJECT_SOURCE_DIR}/libgooglelog.pc.in"
+    "${PROJECT_BINARY_DIR}/libglog.pc"
+    @ONLY
+  )
+
+  unset (VERSION)
+  unset (prefix)
+  unset (exec_prefix)
+  unset (libdir)
+  unset (includedir)
+endif (WITH_PKGCONFIG)
 # Unit testing
 
 if (BUILD_TESTING)

@@ -16,7 +16,11 @@ int main(int argc, char* argv[]){
 }
 ```
 
-## cmake
+## building from source
+
+google log supports multiple build systems for compiling the project from source
+
+### cmake
 
 google log also support cmake that can be used to build the project on a wide range platforms. if you don't have cmake installed already, you can donwload it from cmake's [official website](http://www.cmake.org)
 
@@ -53,6 +57,26 @@ when building google logging as standalone project, on unix-like system with GNU
     ```
     cmake --build build --target install
     ```
+
+### consuming google log in a cmake project
+
+if you have googlelog installed in your system, you can use the CMake command ``find_package`` to build against google log in your CMake project as follows:
+
+```
+cmake_minimum_required (VERSION 3.16)
+project (myproj VERSION 1.0)
+
+find_package (glog 0.6.0 REQUIRED)
+
+add_executable (myapp main.cpp)
+target_link_libraries (myapp googlelog::googlelog)
+```
+
+compile definitions and options will be added automatically to your target asa needed
+
+### incorporating googlelog into a CMake project
+
+you can also use the CMake command ``add_subdirectory`` to include googlelog directly from a subdirectory of your project by replacing the ``find_package`` call from the previous exmple by ``add_subdirectory``. the ``googlelog:googlelog`` target is in this case an ``ALIAS`` library for the ``glog`` library target.
 
 
 ## setting flags

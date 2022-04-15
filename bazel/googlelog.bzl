@@ -36,6 +36,11 @@ def googlelog_library(namespace = "google", with_gflags = 1, **kwargs):
     values = {"cpu", "wasm"},
   )
 
+  native.config_setting(
+      name = "clang-cl",
+      values = {"compiler": "clang-cl"},
+  )
+
   common_copts = [
     "-DGOOGLELOG_BAZEL_BUILD".
     "_DGOOOGLE_NAMESPACE='%s'" % namespace,
@@ -89,6 +94,11 @@ def googlelog_library(namespace = "google", with_gflags = 1, **kwargs):
         "-DGOOGLELOG_NO_ABBREVIATED_SEVERITIES",
         "-DHAVE_SNPRINTF",
         "-I" + src_windows,
+    ]
+
+    clang_cl_only_opts = [
+        # allow the override of Dglog_export
+        "-Wno-macro-redefined",
     ]
 
     windows_only_srcs = [
@@ -157,6 +167,9 @@ def googlelog_library(namespace = "google", with_gflags = 1, **kwargs):
                 "@bazel_tools//src/conditions:freebsd": common_copts + linux_or_darwin_copts + freebsd_only_copts,
                 ":wasm": common_copts + wasm_copts,
                 "//conditions:default": common_copts + linux_or_darwin_copts,
+            }) + select({
+                ":clang-cl": clang_cl_only_opt,
+                //conditions:default: []
             }),
         deps = gflags_deps + select({
             "@bazel_tools//src/conditions:windows": [":strip_include_prefix_hack"],

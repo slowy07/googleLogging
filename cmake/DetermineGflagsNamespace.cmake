@@ -12,7 +12,6 @@ macro(determine_gflags_namespace VARIABLE)
     set(_check_code
 "
 #include <gflags/gflags.h>
-
 int main(int argc, char**argv)
 {
   GOOGLELOG_GFLAGS_NAMESPACE::ParseCommandLineFlags(&argc, &argv, true);

@@ -63,19 +63,15 @@ _START_GOOGLE_NAMESPACE_
 namespace googlelog_internal_namespace_ {
 
 // Used by logging_unittests.cc so can't make it static here.
-GOOGLE_GOOGLELOG_DLL_DECL bool SafeFNMatch_(const char* pattern,
-                                       size_t patt_len,
-                                       const char* str,
-                                       size_t str_len);
+GOOGLELOG_EXPORT bool SafeFNMatch_(const char* pattern, size_t patt_len,
+                              const char* str, size_t str_len);
 
 // Implementation of fnmatch that does not need 0-termination
 // of arguments and does not allocate any memory,
 // but we only support "*" and "?" wildcards, not the "[...]" patterns.
 // It's not a static function for the unittest.
-GOOGLE_GOOGLELOG_DLL_DECL bool SafeFNMatch_(const char* pattern,
-                                       size_t patt_len,
-                                       const char* str,
-                                       size_t str_len) {
+GOOGLELOG_EXPORT bool SafeFNMatch_(const char* pattern, size_t patt_len,
+                              const char* str, size_t str_len) {
   size_t p = 0;
   size_t s = 0;
   while (1) {
@@ -294,4 +290,4 @@ bool InitVLOG3__(SiteFlag* site_flag, int32* level_default,
   return *site_flag_value >= verbose_level;
 }
 
-_END_GOOGLE_NAMESPACE_
+_END_GOOGLE_NAMESPACE

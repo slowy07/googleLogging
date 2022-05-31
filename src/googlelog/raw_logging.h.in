@@ -9,15 +9,6 @@
 #include <googlelog/logging.h>
 #include <googlelog/vlog_is_on.h>
 
-// Annoying stuff for windows -- makes sure clients can import these functions
-#ifndef GOOGLE_GOOGLELOG_DLL_DECL
-# if defined(_WIN32) && !defined(__CYGWIN__)
-#   define GOOGLE_GOOGLELOG_DLL_DECL  __declspec(dllimport)
-# else
-#   define GOOGLE_GOOGLELOG_DLL_DECL
-# endif
-#endif
-
 #if defined(__GNUC__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wvariadic-macros"
@@ -98,7 +89,7 @@
 #define RAW_LOG_FATAL(...) \
   do { \
     @ac_google_namespace@::RawLogStub__(0, __VA_ARGS__);        \
-    exit(1); \
+    exit(EXIT_FAILURE); \
   } while (0)
 #endif // STRIP_LOG <= 3
 
@@ -144,11 +135,9 @@ static inline void RawLogStub__(int /* ignored */, ...) {
 // Logs format... at "severity" level, reporting it
 // as called from file:line.
 // This does not allocate memory or acquire locks.
-GOOGLE_GOOGLELOG_DLL_DECL void RawLog__(LogSeverity severity,
-                                   const char* file,
-                                   int line,
-                                   const char* format, ...)
-   @ac_cv___attribute___printf_4_5@;
+GOOGLELOG_EXPORT void RawLog__(LogSeverity severity, const char* file, int line,
+                          const char* format, ...)
+    @ac_cv___attribute___printf_4_5@;
 
 @ac_google_end_namespace@
 

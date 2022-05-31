@@ -66,7 +66,7 @@ if you have googlelog installed in your system, you can use the CMake command ``
 cmake_minimum_required (VERSION 3.16)
 project (myproj VERSION 1.0)
 
-find_package (glog 0.6.0 REQUIRED)
+find_package (googlelog 0.6.0 REQUIRED)
 
 add_executable (myapp main.cpp)
 target_link_libraries (myapp googlelog::googlelog)
@@ -76,7 +76,7 @@ compile definitions and options will be added automatically to your target asa n
 
 ### incorporating googlelog into a CMake project
 
-you can also use the CMake command ``add_subdirectory`` to include googlelog directly from a subdirectory of your project by replacing the ``find_package`` call from the previous exmple by ``add_subdirectory``. the ``googlelog:googlelog`` target is in this case an ``ALIAS`` library for the ``glog`` library target.
+you can also use the CMake command ``add_subdirectory`` to include googlelog directly from a subdirectory of your project by replacing the ``find_package`` call from the previous exmple by ``add_subdirectory``. the ``googlelog:googlelog`` target is in this case an ``ALIAS`` library for the ``googlelog`` library target.
 
 
 ## setting flags

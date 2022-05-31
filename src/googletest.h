@@ -57,9 +57,9 @@
 #include "base/commandlineflags.h"
 
 #if __cplusplus < 201103L && !defined(_MSC_VER)
-#define GOOGLE_GLOG_THROW_BAD_ALLOC throw (std::bad_alloc)
+#define GOOGLE_GOOGLELOG_THROW_BAD_ALLOC throw (std::bad_alloc)
 #else
-#define GOOGLE_GLOG_THROW_BAD_ALLOC
+#define GOOGLE_GOOGLELOG_THROW_BAD_ALLOC
 #endif
 
 using std::map;
@@ -68,12 +68,12 @@ using std::vector;
 
 _START_GOOGLE_NAMESPACE_
 
-extern GLOG_EXPORT void (*g_logging_fail_func)();
+extern GOOGLELOG_EXPORT void (*g_logging_fail_func)();
 
 _END_GOOGLE_NAMESPACE_
 
-#undef GLOG_EXPORT
-#define GLOG_EXPORT
+#undef GOOGLELOG_EXPORT
+#define GOOGLELOG_EXPORT
 
 static inline string GetTempDir() {
   vector<string> temp_directories_list;
@@ -88,9 +88,9 @@ static inline string GetTempDir() {
   return temp_directories_list.front();
 }
 
-#if defined(GLOG_OS_WINDOWS) && defined(_MSC_VER) && !defined(TEST_SRC_DIR)
-// The test will run in glog/vsproject/<project name>
-// (e.g., glog/vsproject/logging_unittest).
+#if defined(GOOGLELOG_OS_WINDOWS) && defined(_MSC_VER) && !defined(TEST_SRC_DIR)
+// The test will run in googlelog/vsproject/<project name>
+// (e.g., googlelog/vsproject/logging_unittest).
 static const char TEST_SRC_DIR[] = "../..";
 #elif !defined(TEST_SRC_DIR)
 # warning TEST_SRC_DIR should be defined in config.h
@@ -101,7 +101,7 @@ static const uint32_t PTR_TEST_VALUE = 0x12345678;
 
 DEFINE_string(test_tmpdir, GetTempDir(), "Dir we use for temp files");
 DEFINE_string(test_srcdir, TEST_SRC_DIR,
-              "Source-dir root, needed to find glog_unittest_flagfile");
+              "Source-dir root, needed to find googlelog_unittest_flagfile");
 DEFINE_bool(run_benchmark, false, "If true, run benchmarks");
 #ifdef NDEBUG
 DEFINE_int32(benchmark_iters, 100000000, "Number of iterations per benchmark");
@@ -224,7 +224,7 @@ static inline void CalledAbort() {
   longjmp(g_jmp_buf, 1);
 }
 
-#ifdef GLOG_OS_WINDOWS
+#ifdef GOOGLELOG_OS_WINDOWS
 // TODO(hamaji): Death test somehow doesn't work in Windows.
 #define ASSERT_DEATH(fn, msg)
 #else
@@ -530,7 +530,7 @@ static inline bool MungeAndDiffTest(const string& golden_filename,
     WriteToFile(golden, munged_golden);
     string munged_captured = cap->filename() + ".munged";
     WriteToFile(captured, munged_captured);
-#ifdef GLOG_OS_WINDOWS
+#ifdef GOOGLELOG_OS_WINDOWS
     string diffcmd("fc " + munged_golden + " " + munged_captured);
 #else
     string diffcmd("diff -u " + munged_golden + " " + munged_captured);
@@ -580,7 +580,7 @@ class Thread {
   virtual ~Thread() {}
 
   void SetJoinable(bool) {}
-#if defined(GLOG_OS_WINDOWS) && !defined(GLOG_OS_CYGWIN)
+#if defined(GOOGLELOG_OS_WINDOWS) && !defined(GOOGLELOG_OS_CYGWIN)
   void Start() {
     handle_ = CreateThread(NULL,
                            0,
@@ -613,7 +613,7 @@ class Thread {
     return NULL;
   }
 
-#if defined(GLOG_OS_WINDOWS) && !defined(GLOG_OS_CYGWIN)
+#if defined(GOOGLELOG_OS_WINDOWS) && !defined(GOOGLELOG_OS_CYGWIN)
   static DWORD __stdcall InvokeThreadW(LPVOID self) {
     InvokeThread(self);
     return 0;
@@ -626,7 +626,7 @@ class Thread {
 };
 
 static inline void SleepForMilliseconds(unsigned t) {
-#ifndef GLOG_OS_WINDOWS
+#ifndef GOOGLELOG_OS_WINDOWS
 # if defined(_POSIX_C_SOURCE) && _POSIX_C_SOURCE >= 199309L
   const struct timespec req = {0, t * 1000 * 1000};
   nanosleep(&req, NULL);
@@ -644,14 +644,14 @@ void (*g_new_hook)() = NULL;
 
 _END_GOOGLE_NAMESPACE_
 
-void* operator new(size_t size) GOOGLE_GLOG_THROW_BAD_ALLOC {
+void* operator new(size_t size) GOOGLE_GOOGLELOG_THROW_BAD_ALLOC {
   if (GOOGLE_NAMESPACE::g_new_hook) {
     GOOGLE_NAMESPACE::g_new_hook();
   }
   return malloc(size);
 }
 
-void* operator new[](size_t size) GOOGLE_GLOG_THROW_BAD_ALLOC {
+void* operator new[](size_t size) GOOGLE_GOOGLELOG_THROW_BAD_ALLOC {
   return ::operator new(size);
 }
 

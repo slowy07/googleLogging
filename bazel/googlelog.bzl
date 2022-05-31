@@ -47,7 +47,7 @@ def googlelog_library(namespace = "google", with_gflags = 1, **kwargs):
         "-DHAVE_STDINT_H",
         "-DHAVE_STRING_H",
         "-DGOOGLELOG_CUSTOM_PREFIX_SUPPORT",
-        "-I%s/glog_internal" % gendir,
+        "-I%s/googlelog_internal" % gendir,
     ] + (["-DHAVE_LIB_GFLAGS"] if with_gflags else [])
 
     wasm_copts = [
@@ -183,7 +183,7 @@ def googlelog_library(namespace = "google", with_gflags = 1, **kwargs):
     expand_template(
         name = "config_h",
         template = "src/config.h.cmake.in",
-        out = "googlog_internal/config.h",
+        out = "googooglelog_internal/config.h",
         substitutions = {"#cmakedefine": "//cmakedefine"}
     )
 
@@ -195,7 +195,7 @@ def googlelog_library(namespace = "google", with_gflags = 1, **kwargs):
         "@ac_cv_cxx_using_operator@": "1",
         "@ac_cv_have_inttypes_h@": "0",
         "@ac_cv_have_u_int16_t@": "0",
-        "@ac_cv_have_glog_export@": "0",
+        "@ac_cv_have_googlelog_export@": "0",
         "@ac_google_start_namespace@": "namespace google {",
         "@ac_google_end_namespace@": "}",
         "@ac_google_namespace@": "google",
@@ -230,7 +230,7 @@ def googlelog_library(namespace = "google", with_gflags = 1, **kwargs):
     [
         expand_template(
             name = "%s_h" % f,
-            template = "src/glog/%s.h.in" % f,
+            template = "src/googlelog/%s.h.in" % f,
             out = "src/googlelog/%s.h" % f,
             substitutions = select({
                 "@bazel_tools//src/conditions:windows": windows_config,

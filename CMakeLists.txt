@@ -716,7 +716,7 @@ if (WITH_PKGCONFIG)
   
   configure_file(
     "${PROJECT_SOURCE_DIR}/libgooglelog.pc.in"
-    "${PROJECT_BINARY_DIR}/libglog.pc"
+    "${PROJECT_BINARY_DIR}/libgooglelog.pc"
     @ONLY
   )
 

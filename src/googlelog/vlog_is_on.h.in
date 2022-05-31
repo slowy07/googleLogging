@@ -3,15 +3,6 @@
 
 #include <googlelog/log_severity.h>
 
-// Annoying stuff for windows -- makes sure clients can import these functions
-#ifndef GOOGLE_GOOGLELOG_DLL_DECL
-# if defined(_WIN32) && !defined(__CYGWIN__)
-#   define GOOGLE_GOOGLELOG_DLL_DECL  __declspec(dllimport)
-# else
-#   define GOOGLE_GOOGLELOG_DLL_DECL
-# endif
-#endif
-
 #if defined(__GNUC__)
 // We emit an anonymous static int* variable at every VLOG_IS_ON(n) site.
 // (Normally) the first time every VLOG_IS_ON(n) site is hit,
@@ -40,8 +31,7 @@
 //	 one needs to supply the exact --vmodule pattern that applied to them.
 //       (If no --vmodule pattern applied to them
 //       the value of FLAGS_v will continue to control them.)
-extern GOOGLE_GOOGLELOG_DLL_DECL int SetVLOGLevel(const char* module_pattern,
-                                             int log_level);
+extern GOOGLELOG_EXPORT int SetVLOGLevel(const char* module_pattern, int log_level);
 
 // Various declarations needed for VLOG_IS_ON above: =========================
 
@@ -60,10 +50,9 @@ struct SiteFlag {
 //   verbose_level is the argument to VLOG_IS_ON
 // We will return the return value for VLOG_IS_ON
 // and if possible set *site_flag appropriately.
-extern GOOGLE_GOOGLELOG_DLL_DECL bool InitVLOG3__(
+extern GOOGLELOG_EXPORT bool InitVLOG3__(
     @ac_google_namespace@::SiteFlag* site_flag,
-    @ac_google_namespace@::int32* site_default,
-    const char* fname,
+    @ac_google_namespace@::int32* site_default, const char* fname,
     @ac_google_namespace@::int32 verbose_level);
 
 #endif  // BASE_VLOG_IS_ON_H_

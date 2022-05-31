@@ -18,7 +18,8 @@
 #elif defined(__OpenBSD__)
 #define GOOGLELOG_OS_OPENBSD
 #else
-#error Platform not supported by googlelogging
+// TODO(hamaji): Add other platforms.
+#error Platform not supported by googlelog. Please consider to contribute platform information by submitting a pull request on Github.
 #endif
 
 #endif

@@ -207,7 +207,7 @@
 /* Version number of package */
 #cmakedefine VERSION
 
-#ifdef GOOGELOG_BAZEL_BUILD
+#ifdef GOOGLELOG_BAZEL_BUILD
 
 /* TODO(rodrigoq): remove this workaround once bazel#3979 is resolved:
  * https://github.com/bazelbuild/bazel/issues/3979 */
@@ -228,4 +228,4 @@
 /* Replacement for deprecated syscall(SYS_gettid) on macOS. */
 #cmakedefine HAVE_PTHREAD_THREADID_NP ${HAVE_PTHREAD_THREADID_NP}
 
-#endif
+#endif  // GOOGLELOG_CONFIG_H

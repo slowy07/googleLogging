@@ -1,4 +1,4 @@
-// Copyright (c) 2007, Google Inc.
+// Copyright (c) 2022, Google Inc.
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -40,13 +40,13 @@
 
 namespace {
 
+using GOOGLE_NAMESPACE::GOOGLELOG_ERROR;
 using GOOGLE_NAMESPACE::GOOGLELOG_INFO;
 using GOOGLE_NAMESPACE::GOOGLELOG_WARNING;
-using GOOGLE_NAMESPACE::GOOGLELOG_ERROR;
 using GOOGLE_NAMESPACE::googlelog_testing::ScopedMockLog;
 using std::string;
 using testing::_;
-using testing::HasSubstr;
+using testing::EndsWith;
 using testing::InSequence;
 using testing::InvokeWithoutArgs;
 
@@ -55,7 +55,8 @@ TEST(ScopedMockLogTest, InterceptsLog) {
   ScopedMockLog log;
 
   InSequence s;
-  EXPECT_CALL(log, Log(GOOGLELOG_WARNING, HasSubstr("/mock-log_unittest.cc"), "Fishy."));
+  EXPECT_CALL(log,
+              Log(GOOGLELOG_WARNING, EndsWith("mock-log_unittest.cc"), "Fishy."));
   EXPECT_CALL(log, Log(GOOGLELOG_INFO, _, "Working..."))
       .Times(2);
   EXPECT_CALL(log, Log(GOOGLELOG_ERROR, _, "Bad!!"));
@@ -100,6 +101,7 @@ TEST(ScopedMockLogTest, LogDuringIntercept) {
 
 int main(int argc, char **argv) {
   GOOGLE_NAMESPACE::InitGoogleLogging(argv[0]);
+  testing::InitGoogleTest(&argc, argv);
   testing::InitGoogleMock(&argc, argv);
 
   return RUN_ALL_TESTS();

@@ -26,8 +26,6 @@
 // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
-// author: arfy slowy
 
 #include <googlelog/logging.h>
 #include <googlelog/raw_logging.h>
@@ -63,7 +61,7 @@ TEST(CleanImmediatelyWithRelativePrefix, logging) {
   google::SetLogDestination(GOOGLELOG_INFO, "test_subdir/test_cleanup_");
 
   for (unsigned i = 0; i < 1000; ++i) {
-    LOG(INFO) << "cleanup test gmock";
+    LOG(INFO) << "cleanup test";
   }
 
   google::DisableLogCleaner();

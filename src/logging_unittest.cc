@@ -27,7 +27,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-// Author: Ray Sidney
+// Author: Arfy Slowy
 
 #include "config.h"
 #include "utilities.h"
@@ -185,9 +185,7 @@ BENCHMARK(BM_vlog)
 int main(int argc, char **argv) {
   FLAGS_colorlogtostderr = false;
   FLAGS_timestamp_in_logfile_name = true;
-#ifdef HAVE_LIB_GFLAGS
-  ParseCommandLineFlags(&argc, &argv, true);
-#endif
+
   // Make sure stderr is not buffered as stderr seems to be buffered
   // on recent windows.
   setbuf(stderr, NULL);
@@ -212,6 +210,10 @@ int main(int argc, char **argv) {
   InitGoogleTest(&argc, argv);
 #ifdef HAVE_LIB_GMOCK
   InitGoogleMock(&argc, argv);
+#endif
+
+#ifdef HAVE_LIB_GFLAGS
+  ParseCommandLineFlags(&argc, &argv, true);
 #endif
 
   // so that death tests run before we use threads
@@ -239,6 +241,22 @@ int main(int argc, char **argv) {
       MungeAndDiffTestStderr(FLAGS_test_srcdir + "/src/logging_unittest.err"));
 
   FLAGS_logtostderr = false;
+
+  FLAGS_logtostdout = true;
+  FLAGS_stderrthreshold = NUM_SEVERITIES;
+  CaptureTestStdout();
+  TestRawLogging();
+  TestLoggingLevels();
+  TestLogString();
+  TestLogSink();
+  TestLogToString();
+  TestLogSinkWaitTillSent();
+  TestCHECK();
+  TestDCHECK();
+  TestSTREQ();
+  EXPECT_TRUE(
+      MungeAndDiffTestStdout(FLAGS_test_srcdir + "/src/logging_unittest.out"));
+  FLAGS_logtostdout = false;
 
   TestBasename();
   TestBasenameAppendWhenNoTimestamp();
@@ -776,7 +794,7 @@ static void TestTwoProcessesWrite() {
   if (pid == 0) {
     LOG(INFO) << "message to new base, child - should only appear on STDERR not on the file";
     ShutdownGoogleLogging(); //for children proc
-    exit(0);
+    exit(EXIT_SUCCESS);
   } else if (pid > 0) {
     wait(NULL);
   }
@@ -1261,6 +1279,9 @@ class TestWaitingLogSink : public LogSink {
 // Check that LogSink::WaitTillSent can be used in the advertised way.
 // We also do golden-stderr comparison.
 static void TestLogSinkWaitTillSent() {
+  // Clear global_messages here to make sure that this test case can be
+  // reentered
+  global_messages.clear();
   { TestWaitingLogSink sink;
     // Sleeps give the sink threads time to do all their work,
     // so that we get a reliable log capture to compare to the golden file.
